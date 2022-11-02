@@ -1,0 +1,13 @@
+Temperatura,Clima,Humedad,Regar
+Calor,Mediterráneo,Alta,Poco
+Calor,Mediterráneo,Media,Mucho
+Calor,Mediterráneo,Baja,Mucho
+Calor,Tropical,Alta,Poco
+Calor,Tropical,Media,Mucho
+Media,Mediterráneo,Media,Poco
+Media,Tropical,Alta,No
+Media,Tropical,Media,No
+Media,Tropical,Baja,Poco
+Frío,Mediterráneo,Baja,Poco
+Frío,Tropical,Alta,No
+Frío,Tropical,Media,No
