@@ -113,7 +113,7 @@ class DecisionTree:
         :return:
         """
         unique_values = data[self.output_field].unique()
-        count = data['Regar'].value_counts(normalize=True)
+        count = data[self.output_field].value_counts(normalize=True)
         entropy = 0
 
         for value in unique_values:
