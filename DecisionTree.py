@@ -2,12 +2,13 @@ import math as m
 
 
 class Tree:
-    def __init__(self, field):
+    def __init__(self, field, entropy):
         self.field = field
         self.connections = dict()
+        self.entropy_decrease = entropy
 
     def __str__(self, nesting=0):
-        res = f"\t" * nesting + self.field + "\n"
+        res = f"\t" * nesting + self.field + ", Entropy Decrease: " + str(self.entropy_decrease) + "\n"
         for key, value in self.connections.items():
             res += "\t" * (nesting+1) + key + "\n"
             if isinstance(value, Tree):
@@ -35,14 +36,14 @@ class DecisionTree:
             # Add leaves
             field = columns[0] if columns[0] != output_field else columns[1]
             values = data[field].unique()
-            tree = Tree(field)
+            tree = Tree(field=field, entropy='No need to calculate')
             for value in values:
                 leaf_value = data[data[field] == value][output_field].iloc[0]
                 tree.connections[value] = leaf_value
             return tree
         else:
-            best_field = self.get_best_field(data)
-            tree = Tree(field=best_field)
+            best_field, best_entropy = self.get_best_field(data)
+            tree = Tree(field=best_field, entropy=best_entropy)
             for value in data[best_field].unique():
                 subset = self.create_subset(data, best_field, value).copy(deep=True)
                 subset = subset.drop(best_field, axis=1)
@@ -56,7 +57,7 @@ class DecisionTree:
 
     def get_best_field(self, data):
         """
-        Returns the column having the best entropy.
+        Returns the column having the best entropy and its entropy decrease.
 
         :param DataFrame data:
         :return:
@@ -73,7 +74,7 @@ class DecisionTree:
             if field_entropy > best_entropy_value:
                 best_entropy_value = field_entropy
                 best_entropy_field = field
-        return best_entropy_field
+        return best_entropy_field, best_entropy_value
 
     def create_subset(self, data, field, value):
         """
